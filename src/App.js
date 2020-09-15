@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { addItem } from  './actions/items';
+import { addItem } from './actions/items';
 
 class App extends Component {
 
   handleOnClick() {
-    this.props.store.dispatch(addItem());
+    this.props.addItem()
   }
 
   render() {
@@ -17,14 +17,32 @@ class App extends Component {
           </button>
         <p>{this.props.items.length}</p>
       </div>
-    );
+    )
   }
-};
+}
 
 const mapStateToProps = (state) => {
   return {
     items: state.items
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, { addItem })(App)
+
+// We can get rid of `mapStateToProps` as well:
+// export default connect(state => ({ items: state.items }), { addItem })(App)
+
+// The above is equivalent to:
+// const mapStateToProps = state => {
+//   return {
+//     items: state.items
+//   }
+// }
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     addItem: () => { dispatch(addItem()) }
+//   }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(App)
